@@ -1,0 +1,10 @@
+.appoinment-banner {
+    background-image: url(../../../images//sifat.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-top: 130px;
+    background-blend-mode: darken, luminosity;
+    background-color: rgba(51, 62, 61, 0.387);
+    border-radius: 10px;
+    /* height: 10%; */
+}
