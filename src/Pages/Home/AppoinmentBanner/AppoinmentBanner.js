@@ -22,7 +22,9 @@ const AppoinmentBanner = () => {
         </Grid>
         <Grid item xs={12} md={6}>
           <Typography sx={{ color: 'success.main' }} variant='h6'> Appoinment</Typography>
-          <Typography sx={{ color: 'success.main' }} variant='h5'>Make An Appoinment Today</Typography>
+          <Typography sx={{ color: 'success.main' }} variant='h5'>
+            Make An Appoinment Today Urgent
+            </Typography>
           <Button variant="contained" color="success">
             More Info
           </Button>
