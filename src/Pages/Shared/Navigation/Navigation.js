@@ -6,6 +6,8 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import { Link } from "react-router-dom";
+
 
 const Navigation = () => {
   return (
@@ -25,6 +27,9 @@ const Navigation = () => {
             Doctor Portal
           </Typography>
           <Button color="inherit">Login</Button>
+          <Link to="/appoinment" style={{textDecoration:'none'}}>
+          <Button color="inherit">Apppoinment</Button>
+          </Link>
         </Toolbar>
       </AppBar>
     </Box>
