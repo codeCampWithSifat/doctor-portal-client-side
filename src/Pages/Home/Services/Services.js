@@ -32,7 +32,7 @@ const Services = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Container>
-      <Typography sx={{ mb: 1.5,  color: 'secondary.main' }} variant="h5" color="text.secondary">
+      <Typography sx={{ mb: 1.5,  color: 'secondary.main', mt:5 }} variant="h5" color="text.secondary">
         Our Services
       </Typography>
       <Typography sx={{ mb: 1.5, fontWeight:600 }}variant="h4" color="text.secondary">
