@@ -4,21 +4,20 @@ import login from "../../../images/login.png";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
-
-const Login = () => {
-  const handleLoginSubmit = (e) => {
-    alert("Hello Sifat");
-    e.preventDefault();
-  };
+import {Link} from 'react-router-dom';
+const Register = () => {
+    const handleRegistrationSubmit = e => {
+        console.log('Button Clicked')
+        e.preventDefault();
+    }
   return (
     <Container>
       <Grid container spacing={2}>
         <Grid sx={{ mt: 8 }} item xs={12} md={6}>
           <Typography variant="h5" gutterBottom component="div">
-            Please Login
+            Please Register
           </Typography>
-          <form onSubmit={handleLoginSubmit}>
+          <form onSubmit={handleRegistrationSubmit}>
             <TextField
               sx={{ width: "75%", m: 1 }}
               id="standard-basic"
@@ -33,17 +32,25 @@ const Login = () => {
               autoComplete="current-password"
               variant="standard"
             />
+            <TextField
+              id="standard-password-input"
+              sx={{ width: "75%", m: 1 }}
+              label=" Confirm Password"
+              type="password"
+              autoComplete="current-password"
+              variant="standard"
+            />
             <Button
               type="submit"
               variant="contained"
               size="large"
               sx={{ width: "75%", mt: 4 }}
             >
-              Login
+              Register
             </Button>
-            <Link to="/register" style={{ textDecoration: "none" }}>
+            <Link to="/login" style={{ textDecoration: "none" }}>
               <Button sx={{ mt: 2 }} variant="text">
-                New User ? Please Register Here.........
+                Already Have An Account ? Please Login.....
               </Button>
             </Link>
           </form>
@@ -56,4 +63,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
