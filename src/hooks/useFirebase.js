@@ -22,10 +22,8 @@ const useFirebase = () => {
   // google login functionality
   const googleLogin = () => {
     const googleProvider = new GoogleAuthProvider();
-    signInWithPopup(auth, googleProvider)
-      .then((result) => {
-        setUser(result.user);
-      })
+     return signInWithPopup(auth, googleProvider)
+     
       .catch((error) => {
         console.log(error);
         setError(error.message);

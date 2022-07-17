@@ -6,6 +6,8 @@ import Fade from "@mui/material/Fade";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
+import useAuth from "../../../hooks/useAuth";
+import { useState } from "react";
 
 const style = {
   position: "absolute",
@@ -21,13 +23,40 @@ const style = {
 
 const BookingModal = ({ openBooking, handleBookingClose, booking, date }) => {
   const { name, time } = booking;
+  const {user} = useAuth();
+  const initialInfo = {patientName:user.displayName, email:user.email, phone:""}
 
+  const [bookingInfo , setBookingInfo] = useState(initialInfo)
+
+  
+  
+  const handleOnBlur = e => {
+    const field = e.target.name ;
+    const value = e.target.value;
+    const newInfo = {...bookingInfo}
+    newInfo[field] = value;
+    console.log(newInfo)
+    setBookingInfo(newInfo)
+  };
+  
+  
   const handleBookSubmit = e => {
-    alert('Submit Your Information Successfully')
+
+   //collect the data 
+   const appoinment = {
+    ...bookingInfo,
+    time,
+    serviceName: name,
+    date: date.toLocalDateString()
+   }
+   // send data to the server
+   console.log(appoinment)
+
     handleBookingClose()
     e.preventDefault()
 
-  }
+  };
+
 
   return (
     <Modal
@@ -56,21 +85,28 @@ const BookingModal = ({ openBooking, handleBookingClose, booking, date }) => {
             />
             <TextField    
               id="outlined-size-small"
+              name="patientName"
               sx ={{width : "100%", m:1}}
-              defaultValue='Your Name'
+              defaultValue={user.displayName}
               size="small"
+              onBlur={handleOnBlur}
             />
             <TextField
               id="outlined-size-small"
               sx ={{width : "100%", m:1}}
-              defaultValue='Your Email'
+              defaultValue={user.email}
+              name="email"
               size="small"
+              onBlur={handleOnBlur}
             />
             <TextField
               id="outlined-size-small"
+              required
               sx ={{width : "100%", m:1}}
               defaultValue='Your Phone Number'
               size="small"
+              name="Phone Number"
+              onBlur={handleOnBlur}
             />
             <TextField
               disabled

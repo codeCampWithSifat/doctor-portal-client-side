@@ -4,23 +4,28 @@ import login from "../../../images/login.png";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import { useState } from "react";
 
 const Login = () => {
-  const {googleLogin,loginUser, user} = useAuth();
+  const {googleLogin,loginUser} = useAuth();
   const [email, setEmail] = useState('');
   const [password ,setPassword] = useState('');
   const [error ,setError] = useState('');
   const [success , setSuccess] = useState('');
-  const handleLogin = async(e) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const  from = location.state?.from?.pathname || "/";
 
+
+  const handleLogin = async(e) => {
     e.preventDefault();
     try {
       await loginUser(email, password);
       setSuccess("User Login Successfully");
       setError("")
+      navigate(from, { replace: true });
     } catch (error) {
       console.log(error)
       setSuccess('')
@@ -37,6 +42,12 @@ const Login = () => {
     setPassword(e.target.value)
   }
 
+  const handleGoogleLogin = () => {
+    googleLogin()
+    .then(() => {
+      navigate(from, { replace: true });
+    })
+  }
  
   return (
     <Container>
@@ -89,7 +100,7 @@ const Login = () => {
               variant="contained"
               size="large"
               sx={{ width: "75%", mt: 2 }}
-              onClick={googleLogin}
+              onClick={handleGoogleLogin}
             >
               Google Login 
             </Button>

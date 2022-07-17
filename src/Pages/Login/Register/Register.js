@@ -4,7 +4,7 @@ import login from "../../../images/login.png";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 
 
@@ -16,6 +16,9 @@ const Register = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const { googleLogin, registerUser } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const  from = location.state?.from?.pathname || "/appoinment";
 
   async function handleRegistration(e) {
     e.preventDefault();
@@ -30,6 +33,7 @@ const Register = () => {
       await registerUser(name, email, password);
       setSuccess("User Created Successfully");
       setError("");
+      navigate(from, { replace: true });
     } catch (error) {
       setSuccess("");
       setError("This Account Already Used ? Please Try Another Account");
@@ -51,6 +55,13 @@ const Register = () => {
   const handleConfrimPassword = (e) => {
     setConfirmPassword(e.target.value);
   };
+
+  const handleGoogleLogin = () => {
+    googleLogin()
+    .then(() => {
+      navigate(from, { replace: true });
+    })
+  }
 
   return (
     <Container>
@@ -121,7 +132,7 @@ const Register = () => {
               variant="contained"
               size="large"
               sx={{ width: "75%", mt: 2 }}
-              onClick={googleLogin}
+              onClick={handleGoogleLogin}
             >
               Google Login
             </Button>
