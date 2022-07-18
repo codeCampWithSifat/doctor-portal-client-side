@@ -6,7 +6,7 @@ import CardMedia from '@mui/material/CardMedia';
 
 
 const Service = ({service}) => {
-    console.log(service)
+    // console.log(service)
     const {name,description,img} = service;
   return (
     <Card sx={{ minWidth: 275 , }}>

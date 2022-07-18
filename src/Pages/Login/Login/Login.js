@@ -1,111 +1,58 @@
-import { Container, Grid } from "@mui/material";
+import { Button, Container, Grid } from "@mui/material";
 import React from "react";
 import login from "../../../images/login.png";
-import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import useAuth from "../../../hooks/useAuth";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Login = () => {
-  const {googleLogin,loginUser} = useAuth();
-  const [email, setEmail] = useState('');
-  const [password ,setPassword] = useState('');
-  const [error ,setError] = useState('');
-  const [success , setSuccess] = useState('');
-  const navigate = useNavigate();
-  const location = useLocation();
-  const  from = location.state?.from?.pathname || "/";
+  const [loginData , setLoginData] = useState({})
 
-
-  const handleLogin = async(e) => {
+  const handleLogin = (e) => {
+    alert("Login Successfully");
     e.preventDefault();
-    try {
-      await loginUser(email, password);
-      setSuccess("User Login Successfully");
-      setError("")
-      navigate(from, { replace: true });
-    } catch (error) {
-      console.log(error)
-      setSuccess('')
-      setError('No Account Exists ? Please Create An Account')
-    }
-
   };
 
-  const handleEmail = e => {
-    setEmail(e.target.value);
-  };
-
-  const handlePassword = e => {
-    setPassword(e.target.value)
+  const handleOnBlur = e => {
+    const field = e.target.name ;
+    const value = e.target.value;
+    const newLoginData = {...loginData}
+    newLoginData[field] = value
+    setLoginData(newLoginData)
+    // console.log(field, value)
   }
 
-  const handleGoogleLogin = () => {
-    googleLogin()
-    .then(() => {
-      navigate(from, { replace: true });
-    })
-  }
- 
   return (
     <Container>
       <Grid container spacing={2}>
-        <Grid sx={{ mt: 8 }} item xs={12} md={6}>
-          <Typography variant="h5" gutterBottom component="div">
-            Please Login
-          </Typography>
+        <Grid sx={{ mt: 7 }} item xs={12} md={6}>
+          <h3>Please Login </h3>
           <form onSubmit={handleLogin}>
             <TextField
-              sx={{ width: "75%", m: 1 }}
-              id="standard-basic"
-              label=" Your Email"
+              required
+              id="standard-required"
+              label="Your Email"
               variant="standard"
-              onBlur={handleEmail}
+              type="email"
+              sx={{ width: "75%" , mt:3 }}
+              name="email"
+              onBlur={handleOnBlur}
             />
             <TextField
-              id="standard-password-input"
-              sx={{ width: "75%", m: 1 }}
-              label="Password"
-              type="password"
-              autoComplete="current-password"
+              required
+              id="standard-required"
+              label="Your Password"
               variant="standard"
-              onBlur={handlePassword}
+              type="password"
+              sx={{ width: "75%",mt:3 }}
+              name="password"
+              onBlur={handleOnBlur}
             />
-            <Button
-              type="submit"
-              variant="contained"
-              size="large"
-              sx={{ width: "75%", mt: 4 }}
-            >
-              Login
-            </Button>
-            {success && (
-              <Typography variant="h6" gutterBottom component="div">
-                {success}
-              </Typography>
-            )}
-            {error && (
-              <Typography variant="h6" gutterBottom component="div">
-                {error}
-              </Typography>
-            )}
-            <Link to="/register" style={{ textDecoration: "none" }}>
-              <Button sx={{ mt: 2 }} variant="text">
-                New User ? Please Register Here.........
-              </Button>
-            </Link>
-            <Button
-              variant="contained"
-              size="large"
-              sx={{ width: "75%", mt: 2 }}
-              onClick={handleGoogleLogin}
-            >
-              Google Login 
-            </Button>
-            
+            <Button sx={{ width: "75%",mt:4 }} type="submit" variant="contained">Login</Button>
           </form>
+          <Link to='/register' style={{textDecoration:"none"}}>
+          <Button sx={{ width: "75%",mt:4 }}  variant="text">New User Please Register</Button>
+          </Link>
         </Grid>
         <Grid item xs={12} md={6}>
           <img style={{ width: "100%" }} src={login} alt="" />

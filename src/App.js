@@ -16,14 +16,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
-            <Route
-              path="/appoinment"
-              element={
-                <PrivateRoute>
-                  <Appoinment />
-                </PrivateRoute>
-              }
-            />
+            <Route path="/appoinment" element={<Appoinment />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="*" element={<NotFound />} />

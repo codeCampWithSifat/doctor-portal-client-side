@@ -1,142 +1,78 @@
-import { Container, Grid } from "@mui/material";
-import React, { useState } from "react";
+import { Button, Container, Grid, TextField } from "@mui/material";
+import React from "react";
+import { useState } from "react";
+import { NavLink } from "react-router-dom";
 import login from "../../../images/login.png";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import useAuth from "../../../hooks/useAuth";
-
 
 const Register = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-  const { googleLogin, registerUser } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const  from = location.state?.from?.pathname || "/appoinment";
+  const [loginData , setLoginData] = useState({});
 
-  async function handleRegistration(e) {
-    e.preventDefault();
-    if (password !== confirmPassword) {
-      setError("Password Not Matched");
-      return;
-    } else if (password.length < 6) {
-      setError("Password At Least 6 Or More Character");
-      return;
-    }
-    try {
-      await registerUser(name, email, password);
-      setSuccess("User Created Successfully");
-      setError("");
-      navigate(from, { replace: true });
-    } catch (error) {
-      setSuccess("");
-      setError("This Account Already Used ? Please Try Another Account");
+  const handleOnChange = e => {
+    const field = e.target.name ;
+    const value = e.target.value ;
+    const newLoginData = {...loginData}
+    newLoginData[field] = value 
+    setLoginData(newLoginData);
+    // console.log(newLoginData)
+  };
+  const handleRegisterSubmit = e =>{
+    e.preventDefault()
+   
+    if(loginData.password !== loginData.password2) {
+      alert('Your Password Not Matched')
+      return
     }
   }
-
-  const handleName = (e) => {
-    setName(e.target.value);
-  };
-
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePassword = (e) => {
-    setPassword(e.target.value);
-  };
-
-  const handleConfrimPassword = (e) => {
-    setConfirmPassword(e.target.value);
-  };
-
-  const handleGoogleLogin = () => {
-    googleLogin()
-    .then(() => {
-      navigate(from, { replace: true });
-    })
-  }
-
   return (
     <Container>
       <Grid container spacing={2}>
-        <Grid sx={{ mt: 8 }} item xs={12} md={6}>
-          <Typography variant="h5" gutterBottom component="div">
-            Please Register
-          </Typography>
-          <form onSubmit={handleRegistration}>
+        <Grid sx={{ mt: 7 }} item xs={12} md={6}>
+          <h3>Please Register </h3>
+          <form onSubmit={handleRegisterSubmit}>
             <TextField
-              sx={{ width: "75%", m: 1 }}
-              id="standard-basic"
-              label="Your Name"
-              variant="standard"
-              type="text"
-              onBlur={handleName}
-            />
-            <TextField
-              sx={{ width: "75%", m: 1 }}
-              id="standard-basic"
-              label=" Your Email"
+              required
+              id="standard-required"
+              label="Your Email"
               variant="standard"
               type="email"
-              onBlur={handleEmail}
+              sx={{ width: "75%", mt: 3 }}
+              name="email"
+              onChange={handleOnChange}
             />
             <TextField
-              id="standard-password-input"
-              sx={{ width: "75%", m: 1 }}
-              label="Password"
-              type="password"
-              autoComplete="current-password"
+              required
+              id="standard-required"
+              label="Your Password"
               variant="standard"
-              onBlur={handlePassword}
+              type="password"
+              sx={{ width: "75%", mt: 3 }}
+              name="password"
+              onChange={handleOnChange}
             />
             <TextField
-              id="standard-password-input"
-              sx={{ width: "75%", m: 1 }}
-              label=" Confirm Password"
-              type="password"
-              autoComplete="current-password"
+              required
+              id="standard-required"
+              label="Confirm Password"
               variant="standard"
-              onBlur={handleConfrimPassword}
+              type="password"
+              sx={{ width: "75%", mt: 3 }}
+              name="password2"
+              onChange={handleOnChange}
             />
             <Button
+              sx={{ width: "75%", mt: 4 }}
               type="submit"
               variant="contained"
-              size="large"
-              sx={{ width: "75%", mt: 4 }}
             >
               Register
             </Button>
-            {success && (
-              <Typography variant="h5" gutterBottom component="div">
-                {success}
-              </Typography>
-            )}
-            {error && (
-              <Typography variant="h5" gutterBottom component="div">
-                {error}
-              </Typography>
-            )}
-            <Link to="/login" style={{ textDecoration: "none" }}>
-              <Button sx={{ mt: 2 }} variant="text">
-                Already Have An Account ? Please Login.....
-              </Button>
-            </Link>
-            <Button
-              variant="contained"
-              size="large"
-              sx={{ width: "75%", mt: 2 }}
-              onClick={handleGoogleLogin}
-            >
-              Google Login
-            </Button>
           </form>
+
+          <NavLink to="/login" style={{textDecoration:"none"}}>
+            <Button sx={{ width: "75%", mt: 4 }} variant="text">
+              Already Have An Account? Please Login.........
+            </Button>
+          </NavLink>
         </Grid>
         <Grid item xs={12} md={6}>
           <img style={{ width: "100%" }} src={login} alt="" />
