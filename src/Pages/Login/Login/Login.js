@@ -4,12 +4,16 @@ import login from "../../../images/login.png";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import useAuth from '../../../hooks/useAuth'
 
 const Login = () => {
   const [loginData , setLoginData] = useState({})
+  const {user, loginUser, isLoading, authError} = useAuth()
 
   const handleLogin = (e) => {
-    alert("Login Successfully");
+    // alert("Login Successfully");
+    loginUser(loginData.email , loginData.password)
+
     e.preventDefault();
   };
 

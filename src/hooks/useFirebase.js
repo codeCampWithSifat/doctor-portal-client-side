@@ -1,44 +1,52 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import firebaseAuthentication from "../Pages/Login/Firebase/firebase.init";
 import {
-  createUserWithEmailAndPassword,
   getAuth,
-  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
   onAuthStateChanged,
-  signInWithEmailAndPassword,
-  signInWithPopup,
   signOut,
-  updateProfile,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
+import { useEffect } from "react";
 
 firebaseAuthentication();
 
 const useFirebase = () => {
   const [user, setUser] = useState({});
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
   const auth = getAuth();
+  const [isLoading, setIsLoading] = useState(true);
+  const [authError , setAuthError] = useState('')
 
-  // google login functionality
-  const googleLogin = () => {
-    const googleProvider = new GoogleAuthProvider();
-    return signInWithPopup(auth, googleProvider)
-    .catch((error) => {
-      console.log(error);
-      setError(error.message);
-    });
+  const registerUser = (email, password) => {
+    setIsLoading(true)
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        setAuthError("")
+        console.log(userCredential)
+        // ...
+      })
+      .catch((error) => {
+        setAuthError ( error.message);
+
+      })
+      .finally(() => setIsLoading(false))
   };
 
-  // logout functionality
-  const logout = () => {
-     setIsLoading(true);
-    signOut(auth).then(() => {
-      setUser({});
-    })
-    .finally(() => setIsLoading(false));
+  const loginUser = (email, password) => {
+
+    setIsLoading(true)
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        setAuthError("")
+      })
+      .catch((error) => {
+        setAuthError(error.message);
+      })
+      .finally(() => setIsLoading(false))
   };
 
-  // observe the present user
+  // observer the user
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -46,46 +54,31 @@ const useFirebase = () => {
       } else {
         setUser({});
       }
-      setIsLoading(false);
+      setIsLoading(false)
     });
-    return unsubscribe;
+    return () => unsubscribe;
   }, [auth]);
 
-  // create user functionality
-  async function registerUser(name, email, password) {
-    try {
-
-      setIsLoading(true)
-      await createUserWithEmailAndPassword(auth, email, password)
-      await updateProfile(auth.currentUser, { displayName: name })
-      // const user = auth.currentUser;
-      setUser(user)
-      setError('')
-    } catch (error) {
-      console.log(error)
-      setError(error.message)
-    }
-    finally {
-      setIsLoading(false);
-    }
-  }
-
-  // login user functinality
-  async function loginUser(email, password) {
-  
-   try {
+  // logout functionality
+  const logout = () => {
     setIsLoading(true)
-    await signInWithEmailAndPassword(auth, email, password);
-    setError("")
-   } catch (error) {
-    setError(error.message)
-    console.log(error)
-   }
-    finally{
-      setIsLoading(false)
-    }
-  }
+    signOut(auth)
+      .then(() => {
+        setUser({});
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => setIsLoading(false))
+  };
 
-  return { user, googleLogin, logout, error, registerUser, loginUser , isLoading};
+  return {
+    user,
+    registerUser,
+    loginUser,
+    logout,
+    isLoading,
+    authError,
+  };
 };
 export default useFirebase;
