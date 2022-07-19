@@ -1,7 +1,7 @@
 import { Alert, Button, Container, Grid, TextField } from "@mui/material";
 import React from "react";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import login from "../../../images/login.png";
 import CircularProgress from '@mui/material/CircularProgress';
@@ -10,6 +10,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 const Register = () => {
   const [loginData , setLoginData] = useState({});
   const {registerUser, isLoading , user , authError} = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleOnChange = e => {
     const field = e.target.name ;
@@ -17,7 +19,7 @@ const Register = () => {
     const newLoginData = {...loginData}
     newLoginData[field] = value 
     setLoginData(newLoginData);
-    // console.log(newLoginData)
+    console.log(newLoginData)
   };
   const handleRegisterSubmit = e =>{
     
@@ -26,7 +28,7 @@ const Register = () => {
       alert('Your Password Not Matched')
       return
     }
-    registerUser(loginData.email, loginData.password)
+    registerUser(loginData.email, loginData.password, loginData.name, navigate, location)
     
     e.preventDefault();
 
@@ -40,12 +42,22 @@ const Register = () => {
             <TextField
               required
               id="standard-required"
+              label=" Name"
+              variant="standard"
+              type="text"
+              sx={{ width: "75%", mt: 3 }}
+              name="name"
+              onBlur={handleOnChange}
+            />
+            <TextField
+              required
+              id="standard-required"
               label="Your Email"
               variant="standard"
               type="email"
               sx={{ width: "75%", mt: 3 }}
               name="email"
-              onChange={handleOnChange}
+              onBlur={handleOnChange}
             />
             <TextField
               required
@@ -55,7 +67,7 @@ const Register = () => {
               type="password"
               sx={{ width: "75%", mt: 3 }}
               name="password"
-              onChange={handleOnChange}
+              onBlur={handleOnChange}
             />
             <TextField
               required
@@ -65,7 +77,7 @@ const Register = () => {
               type="password"
               sx={{ width: "75%", mt: 3 }}
               name="password2"
-              onChange={handleOnChange}
+              onBlur={handleOnChange}
             />
             <Button
               sx={{ width: "75%", mt: 4 }}
