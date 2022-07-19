@@ -23,40 +23,53 @@ const style = {
 
 const BookingModal = ({ openBooking, handleBookingClose, booking, date }) => {
   const { name, time } = booking;
-  const {user} = useAuth();
-  const initialInfo = {patientName:user.displayName, email:user.email, phone:""}
+  const { user } = useAuth();
+  const initialInfo = {
+    patientName: user.displayName,
+    email: user.email,
+    phone: "",
+  };
 
-  const [bookingInfo , setBookingInfo] = useState(initialInfo)
+  const [bookingInfo, setBookingInfo] = useState(initialInfo);
 
-  
-  
-  const handleOnBlur = e => {
-    const field = e.target.name ;
+  const handleOnBlur = (e) => {
+    const field = e.target.name;
     const value = e.target.value;
-    const newInfo = {...bookingInfo}
+    const newInfo = { ...bookingInfo };
     newInfo[field] = value;
-    console.log(newInfo)
-    setBookingInfo(newInfo)
-  };
-  
-  
-  const handleBookSubmit = e => {
-
-   //collect the data 
-   const appoinment = {
-    ...bookingInfo,
-    time,
-    serviceName: name,
-    date: date.toLocalDateString()
-   }
-   // send data to the server
-   console.log(appoinment)
-
-    handleBookingClose()
-    e.preventDefault()
-
+    // console.log(newInfo)
+    setBookingInfo(newInfo);
   };
 
+  const handleBookSubmit = (e) => {
+    //collect the data from client
+    const appoinment = {
+      ...bookingInfo,
+      time,
+      serviceName: name,
+      date: date.toLocaleDateString(),
+    };
+    // console.log(appoinment);
+    //  // send data to the server
+    fetch("http://localhost:5000/appoinments", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(appoinment),
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data)
+      if(data.insertedId) {
+        
+        handleBookingClose();
+      }
+    })
+
+   
+    e.preventDefault();
+  };
 
   return (
     <Modal
@@ -72,28 +85,33 @@ const BookingModal = ({ openBooking, handleBookingClose, booking, date }) => {
     >
       <Fade in={openBooking}>
         <Box sx={style}>
-          <Typography style={{color :"#16CBED", textAlign:"center", fontWeight:'400'}} id="transition-modal-title" variant="h6" component="h2">
+          <Typography
+            style={{ color: "#16CBED", textAlign: "center", fontWeight: "400" }}
+            id="transition-modal-title"
+            variant="h6"
+            component="h2"
+          >
             {name}
           </Typography>
           <form onSubmit={handleBookSubmit}>
             <TextField
               disabled
               id="outlined-size-small"
-              sx ={{width : "100%", m:1}}
+              sx={{ width: "100%", m: 1 }}
               defaultValue={time}
               size="small"
             />
-            <TextField    
+            <TextField
               id="outlined-size-small"
               name="patientName"
-              sx ={{width : "100%", m:1}}
+              sx={{ width: "100%", m: 1 }}
               defaultValue={user.displayName}
               size="small"
               onBlur={handleOnBlur}
             />
             <TextField
               id="outlined-size-small"
-              sx ={{width : "100%", m:1}}
+              sx={{ width: "100%", m: 1 }}
               defaultValue={user.email}
               name="email"
               size="small"
@@ -102,20 +120,22 @@ const BookingModal = ({ openBooking, handleBookingClose, booking, date }) => {
             <TextField
               id="outlined-size-small"
               required
-              sx ={{width : "100%", m:1}}
-              defaultValue='Your Phone Number'
+              sx={{ width: "100%", m: 1 }}
+              defaultValue="Your Phone Number"
               size="small"
-              name="Phone Number"
+              name="phone"
               onBlur={handleOnBlur}
             />
             <TextField
               disabled
               id="outlined-size-small"
-              sx ={{width : "100%", m:1}}
+              sx={{ width: "100%", m: 1 }}
               defaultValue={date.toDateString()}
               size="small"
             />
-            <Button type='submit' sx={{mx:1}} variant="contained" >Submit</Button>
+            <Button type="submit" sx={{ mx: 1 }} variant="contained">
+              Submit
+            </Button>
           </form>
         </Box>
       </Fade>

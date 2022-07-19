@@ -41,6 +41,7 @@ const useFirebase = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
+        // console.log(userCredential)
         const newUser = {email , displayName : name};
 
         setUser(newUser)
@@ -56,7 +57,7 @@ const useFirebase = () => {
         const from = location.state?.from?.pathname || "/";
         navigate(from, { replace: true });
         setAuthError("");
-        console.log(userCredential);
+        // console.log(userCredential);
         // ...
       })
       .catch((error) => {
