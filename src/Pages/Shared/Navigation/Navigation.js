@@ -28,9 +28,17 @@ const Navigation = () => {
             Doctor Portal
           </Typography>
           {user?.email ? (
-            <Button onClick={logout} color="inherit">
+            <Box>
+              <Button onClick={logout} color="inherit">
               Logout
             </Button>
+            <NavLink to="/dashboard" style={{ textDecoration: "none", color:"white" }}>
+              <Button color="inherit" variant="text">
+                Dashboard
+              </Button>
+            </NavLink>
+            </Box>
+            
           ) : (
             <NavLink to="/login" style={{ textDecoration: "none", color:"white" }}>
               <Button color="inherit" variant="text">
