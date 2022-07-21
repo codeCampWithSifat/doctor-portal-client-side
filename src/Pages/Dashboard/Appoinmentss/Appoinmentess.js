@@ -28,8 +28,8 @@ const Appoinmentess = ({date}) => {
           <TableRow>
             <TableCell>Name</TableCell>
             <TableCell align="center">Time</TableCell>
-            <TableCell align="right">Service Name</TableCell>
-            <TableCell align="right">Action</TableCell>
+            <TableCell align="center">Service Name</TableCell>
+            <TableCell align="center">Action</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -41,10 +41,8 @@ const Appoinmentess = ({date}) => {
               <TableCell component="th" scope="row">
                 {row.patientName}
               </TableCell>
-              <TableCell align="right">{row.time}</TableCell>
-              <TableCell align="right">{row.serviceName}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              <TableCell align="center">{row.time}</TableCell>
+              <TableCell align="center">{row.serviceName}</TableCell>
             </TableRow>
           ))}
         </TableBody>
