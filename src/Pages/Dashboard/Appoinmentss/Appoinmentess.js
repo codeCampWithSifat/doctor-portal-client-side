@@ -9,18 +9,18 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-const Appoinmentess = () => {
+const Appoinmentess = ({date}) => {
   const { user } = useAuth();
   const [appoinments, setAppoinments] = useState([]);
 
   useEffect(() => {
-    const url = `http://localhost:5000/appoinments?email=${user.email}`;
+    const url = `http://localhost:5000/appoinments?email=${user.email}&date=${date}`;
     fetch(url)
       .then((res) => res.json())
       .then((data) => {
         setAppoinments(data);
       });
-  }, []);
+  }, [date]);
   return (
     <TableContainer component={Paper}>
       <Table  aria-label="Appoinments Table">

@@ -17,14 +17,17 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Calander from "../../Shared/Calander/Calander";
-import { Grid } from "@mui/material";
-import Appoinmentess from "../Appoinmentess/Appoinmentess";
+import { Button, Grid } from "@mui/material";
+import { useState } from "react";
+import Appoinmentess from "../Appoinmentss/Appoinmentess";
+import { Link } from "react-router-dom";
 
 const drawerWidth = 180;
 
-function Dashboard(props,) {
+function Dashboard(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [date, setDate] = useState(new Date());
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -34,6 +37,9 @@ function Dashboard(props,) {
     <div>
       <Toolbar />
       <Divider />
+      <Link to="/appoinment" style={{ textDecoration: "none", color: "black" }}>
+        <Button color="inherit">Apppoinment</Button>
+      </Link>
       <List>
         {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
           <ListItem key={text} disablePadding>
@@ -127,10 +133,10 @@ function Dashboard(props,) {
         <Typography paragraph>
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
-              <Calander/>
+              <Calander date={date} setDate={setDate}></Calander>
             </Grid>
             <Grid item xs={12} md={6}>
-              <Appoinmentess/>
+              <Appoinmentess date={date}></Appoinmentess>
             </Grid>
           </Grid>
         </Typography>
