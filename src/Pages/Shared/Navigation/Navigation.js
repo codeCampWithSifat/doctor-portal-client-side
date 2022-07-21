@@ -25,7 +25,7 @@ const Navigation = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Doctor Portal
+           Bangladesh Doctors Consulation
           </Typography>
           {user?.email ? (
             <Box>
