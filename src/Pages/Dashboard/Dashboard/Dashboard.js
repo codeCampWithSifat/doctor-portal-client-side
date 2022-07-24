@@ -24,12 +24,14 @@ import { Link, Outlet } from "react-router-dom";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import DashboardHome from "../DashboardHome/DashboardHome";
 import MakeAdmin from "../MakeAdmin/MakeAdmin";
+import useAuth from "../../../hooks/useAuth";
 
 const drawerWidth = 180;
 
 function Dashboard(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const { admin } = useAuth();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -136,23 +138,27 @@ function Dashboard(props) {
 
         <div className="admin-board">
           <Link
-            to="/dashboard/makeAdmin"
-            style={{ textDecoration: "none", color: "blue" }}
-          >
-            <Button color="inherit">Make Admin</Button>
-          </Link>
-          <Link
             to="/dashboard/dashboardHome"
             style={{ textDecoration: "none", color: "blue" }}
           >
             <Button color="inherit">Dashboard Home</Button>
           </Link>
-          <Link
-            to="/dashboard/addDoctor"
-            style={{ textDecoration: "none", color: "blue" }}
-          >
-            <Button color="inherit">Add Doctor</Button>
-          </Link>
+          {admin && (
+            <Box>
+              <Link
+                to="/dashboard/makeAdmin"
+                style={{ textDecoration: "none", color: "blue" }}
+              >
+                <Button color="inherit">Make Admin</Button>
+              </Link>
+              <Link
+                to="/dashboard/addDoctor"
+                style={{ textDecoration: "none", color: "blue" }}
+              >
+                <Button color="inherit">Add Doctor</Button>
+              </Link>
+            </Box>
+          )}
         </div>
         <Outlet />
       </Box>
