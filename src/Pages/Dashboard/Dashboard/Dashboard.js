@@ -20,14 +20,16 @@ import Calander from "../../Shared/Calander/Calander";
 import { Button, Grid } from "@mui/material";
 import { useState } from "react";
 import Appoinmentess from "../Appoinmentss/Appoinmentess";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import DashboardHome from "../DashboardHome/DashboardHome";
+import MakeAdmin from "../MakeAdmin/MakeAdmin";
 
 const drawerWidth = 180;
 
 function Dashboard(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [date, setDate] = useState(new Date());
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -37,9 +39,10 @@ function Dashboard(props) {
     <div>
       <Toolbar />
       <Divider />
-      <Link to="/appoinment" style={{ textDecoration: "none", color: "black" }}>
+      <Link to="/appoinment" style={{ textDecoration: "none", color: "blue" }}>
         <Button color="inherit">Apppoinment</Button>
       </Link>
+
       <List>
         {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
           <ListItem key={text} disablePadding>
@@ -130,16 +133,28 @@ function Dashboard(props) {
         }}
       >
         <Toolbar />
-        <Typography paragraph>
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
-              <Calander date={date} setDate={setDate}></Calander>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Appoinmentess date={date}></Appoinmentess>
-            </Grid>
-          </Grid>
-        </Typography>
+
+        <div className="admin-board">
+          <Link
+            to="/dashboard/makeAdmin"
+            style={{ textDecoration: "none", color: "blue" }}
+          >
+            <Button color="inherit">Make Admin</Button>
+          </Link>
+          <Link
+            to="/dashboard/dashboardHome"
+            style={{ textDecoration: "none", color: "blue" }}
+          >
+            <Button color="inherit">Dashboard Home</Button>
+          </Link>
+          <Link
+            to="/dashboard/addDoctor"
+            style={{ textDecoration: "none", color: "blue" }}
+          >
+            <Button color="inherit">Add Doctor</Button>
+          </Link>
+        </div>
+        <Outlet />
       </Box>
     </Box>
   );

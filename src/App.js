@@ -8,6 +8,9 @@ import Register from "./Pages/Login/Register/Register";
 import AuthProvider from "./context/AuthProvider/AuthProvider";
 import PrivateRoute from "./Pages/Login/PrivateRoute/PrivateRoute";
 import Dashboard from "./Pages/Dashboard/Dashboard/Dashboard";
+import MakeAdmin from "./Pages/Dashboard/MakeAdmin/MakeAdmin";
+import DashboardHome from "./Pages/Dashboard/DashboardHome/DashboardHome";
+import AddDoctor from "./Pages/Dashboard/AddDoctor/AddDoctor";
 
 function App() {
   return (
@@ -26,13 +29,11 @@ function App() {
               }
             />
             <Route
-              path="/dashboard"
-              element={
-                <PrivateRoute>
-                  <Dashboard />
-                </PrivateRoute>
-              }
-            />
+              path="/dashboard" element={<PrivateRoute> <Dashboard /></PrivateRoute>}>
+              <Route path="/dashboard/makeAdmin" element={<MakeAdmin/>}/>
+              <Route path="/dashboard/dashboardHome" element={<DashboardHome/>}/>
+              <Route path="/dashboard/addDoctor" element={<AddDoctor/>}/>
+            </Route>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="*" element={<NotFound />} />
