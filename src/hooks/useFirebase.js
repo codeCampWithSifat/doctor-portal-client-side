@@ -9,6 +9,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   updateProfile,
+  getIdToken
 } from "firebase/auth";
 import { useEffect } from "react";
 
@@ -20,6 +21,7 @@ const useFirebase = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [authError, setAuthError] = useState("");
   const [admin , setAdmin] = useState(false);
+  const [token , setToken] = useState('')
 
   const googleSignIn = (navigate, location) => {
     setIsLoading(true)
@@ -88,7 +90,12 @@ const useFirebase = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setUser(user);
+        setUser(user)
+        getIdToken(user)
+        .then(idToken => {
+          console.log(idToken);
+          setToken(idToken);
+        })
       } else {
         setUser({});
       }
@@ -132,6 +139,7 @@ const useFirebase = () => {
     user,
     registerUser,
     admin,
+    token,
     loginUser,
     logout,
     isLoading,

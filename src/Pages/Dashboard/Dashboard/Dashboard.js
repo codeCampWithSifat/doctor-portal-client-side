@@ -16,14 +16,8 @@ import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Calander from "../../Shared/Calander/Calander";
-import { Button, Grid } from "@mui/material";
-import { useState } from "react";
-import Appoinmentess from "../Appoinmentss/Appoinmentess";
+import { Button, } from "@mui/material";
 import { Link, Outlet } from "react-router-dom";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import DashboardHome from "../DashboardHome/DashboardHome";
-import MakeAdmin from "../MakeAdmin/MakeAdmin";
 import useAuth from "../../../hooks/useAuth";
 
 const drawerWidth = 180;
@@ -139,9 +133,9 @@ function Dashboard(props) {
         <div className="admin-board">
           <Link
             to="/dashboard/dashboardHome"
-            style={{ textDecoration: "none", color: "blue" }}
+            style={{ textDecoration: "none", color: "red"}}
           >
-            <Button color="inherit">Dashboard Home</Button>
+            <Button color="inherit">Click And See Your Appoinments</Button>
           </Link>
           {admin && (
             <Box>
